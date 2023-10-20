@@ -2,6 +2,9 @@
 import time
 
 from reader import Reader, get_devices
+from soco.discovery import by_name
+
+wohnzimmer = by_name("Wohnzimmer")
 
 i = 0
 print("All available devices")
@@ -18,3 +21,12 @@ while True:
     print("Waiting for card")
     cardid = reader.reader.read_card()
     print("Card ID: ", cardid)
+
+    if cardid == "0012071435":
+        wohnzimmer.play_uri('https://wdr-1live-chillout.icecast.wdr.de/wdr/1live/chillout/mp3/128/stream.mp3')
+    elif cardid == "0012253663":
+        wohnzimmer.play_uri('https://wdr-1live-dancehits.icecast.wdr.de/wdr/1live/dancehits/mp3/128/stream.mp3')
+    elif cardid == "0012298943":
+        wohnzimmer.stop()
+
+
