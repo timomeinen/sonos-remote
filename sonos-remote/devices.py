@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import time
+
 from reader import Reader, get_devices
 
 i = 0
@@ -9,6 +11,10 @@ for dev in get_devices():
 
 reader = Reader()
 
-print("Waiting for card")
-cardid = reader.reader.read_card()
-print("Card ID: ", cardid)
+while True:
+    # slow down the card reading while loop
+    time.sleep(0.2)
+
+    print("Waiting for card")
+    cardid = reader.reader.read_card()
+    print("Card ID: ", cardid)
