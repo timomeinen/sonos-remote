@@ -23,10 +23,13 @@ while True:
     print("Card ID: ", cardid)
 
     if cardid == "0012071435":
+        print("Play chillout")
         wohnzimmer.play_uri('https://wdr-1live-chillout.icecast.wdr.de/wdr/1live/chillout/mp3/128/stream.mp3')
     elif cardid == "0012253663":
+        print("Play Dancehits")
         wohnzimmer.play_uri('https://wdr-1live-dancehits.icecast.wdr.de/wdr/1live/dancehits/mp3/128/stream.mp3')
     elif cardid == "0012298943":
+        print("STOP")
         wohnzimmer.stop()
 
 
