@@ -4,7 +4,7 @@ import time
 from reader import Reader, get_devices
 from soco.discovery import by_name
 
-wohnzimmer = by_name("Wohnzimmer")
+wohnzimmer = by_name("Move")
 
 i = 0
 print("All available devices")
