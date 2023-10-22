@@ -79,9 +79,8 @@ def play_spotify_playlist(playlists):
     speaker.clear_queue()
     sharelink.ShareLinkPlugin(speaker).add_share_link_to_queue(media_uri, position=1, as_next=True)
     speaker.play_from_queue(0, start=True)
-    # speaker.play_uri(media_uri)
 
-    print("Playing the Spotify playlist: ", playlist_name)
+    print("Playing Spotify:", playlist_name)
 
 
 def utility_controls(playlists):
@@ -92,7 +91,11 @@ def utility_controls(playlists):
     if control == "vol reset":
         speaker.volume = defaultVolume
     elif control == "vol down":
-        speaker.volume = (defaultVolume - 10)
+        speaker.volume = speaker.volume - 10
+    elif control == "vol up":
+        speaker.volume = speaker.volume + 10
+
+    print("New volume:", speaker.volume)
 
 
 if __name__ == "__main__":
