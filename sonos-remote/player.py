@@ -55,7 +55,7 @@ def load_playlists():
 
     print("Load database")
     for playlist in database:
-        print("Loaded playlist: ", playlist)
+        print("Loaded playlist:", playlist)
         playlists.append(playlist.split(","))
 
     database.close()
@@ -76,10 +76,10 @@ def play_spotify_playlist(playlists):
     media_uri = sharelink.SpotifyShare().canonical_uri(playlist_url)
     print("Media URI", media_uri)
 
-    # speaker.clear_queue()
-    # sharelink.ShareLinkPlugin(speaker).add_share_link_to_queue(media_uri, position=1, as_next=True)
-    # speaker.play_from_queue(0, start=True)
-    speaker.play_uri(media_uri)
+    speaker.clear_queue()
+    sharelink.ShareLinkPlugin(speaker).add_share_link_to_queue(media_uri, position=1, as_next=True)
+    speaker.play_from_queue(0, start=True)
+    # speaker.play_uri(media_uri)
 
     print("Playing the Spotify playlist: ", playlist_name)
 
