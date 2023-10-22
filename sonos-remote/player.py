@@ -12,8 +12,12 @@ reader = Reader()
 databaseFile = "database.txt"  # name of the local database text file
 defaultVolume = 20
 
+playlists = []
+
 
 def main():
+    load_playlists()
+
     while True:
         # slow down the card reading while loop
         time.sleep(0.2)
@@ -25,8 +29,6 @@ def main():
 
 
 def play_nfc_stream(nfc_uid):
-    playlists = load_playlists()
-
     x = 0
     for i in playlists:
         tag = str(i[0]).lower()
@@ -49,9 +51,11 @@ def play_nfc_stream(nfc_uid):
 
 def load_playlists():
     global databaseFile
+    global playlists
 
     playlists = []
 
+    print("Load Database")
     with open(databaseFile, "r") as fp:
         for playlist in fp:
             playlists.append(playlist.strip().split(","))
@@ -60,8 +64,8 @@ def load_playlists():
     return playlists
 
 
-def identify_service(playlists):
-    return playlists[1]
+def identify_service(playlist_entry):
+    return playlist_entry[1]
 
 
 def play_spotify_playlist(playlists):
