@@ -91,9 +91,9 @@ def utility_controls(playlists):
     if control == "vol reset":
         speaker.volume = defaultVolume
     elif control == "vol down":
-        speaker.volume = speaker.volume - 10
+        speaker.volume = speaker.volume - 5
     elif control == "vol up":
-        speaker.volume = speaker.volume + 10
+        speaker.volume = speaker.volume + 5
 
     print("New volume:", speaker.volume)
 
