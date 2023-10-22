@@ -50,18 +50,13 @@ def play_nfc_stream(nfc_uid):
 def load_playlists():
     global databaseFile
 
-    database = open(databaseFile, "r")
     playlists = []
 
-    print("Load database")
-    for playlist in database:
-        print(playlist)
-        playlists.append(playlist.split(","))
-
-    database.close()
+    with open(databaseFile, "r") as fp:
+        for playlist in fp:
+            playlists.append(playlist.strip().split(","))
 
     print(playlists)
-
     return playlists
 
 
