@@ -11,14 +11,9 @@ def main():
     keep_going = 1
 
     while keep_going == 1:
-        print("Menu of options: ")
-        print("1. Add a new playlist or station.")
-        option = input("Please enter the number of the action you'd like to take: ")
+        add_entry()
 
-        if option == "1":
-            add_entry()
-
-        keep_going = int(input("Do another (1), or sync and quit (0)? "))
+        keep_going = int(input("(0) Quit or Continue?"))
         if keep_going == 0:
             exit(0)
 
