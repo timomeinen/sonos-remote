@@ -24,14 +24,14 @@ def main():
         play_nfc_stream(tag)
 
 
-def play_nfc_stream(nfcUID):
+def play_nfc_stream(nfc_uid):
     playlists = load_playlists()
 
     x = 0
     for i in playlists:
         tag = str(i[0]).lower()
 
-        if tag == nfcUID:
+        if tag == nfc_uid:
             print("Found card in database", tag)
             service = identify_service(playlists[x])
 
