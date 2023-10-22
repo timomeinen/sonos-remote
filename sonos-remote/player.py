@@ -55,12 +55,13 @@ def load_playlists():
 
     playlists = []
 
-    print("Load Database")
+    print("Load Database:")
     with open(databaseFile, "r") as fp:
         for playlist in fp:
-            playlists.append(playlist.strip().split(","))
+            play_list_entry = playlist.strip().split(",")
+            print("Entry:", play_list_entry)
+            playlists.append(play_list_entry)
 
-    print(playlists)
     return playlists
 
 
