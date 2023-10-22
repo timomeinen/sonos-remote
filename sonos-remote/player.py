@@ -55,7 +55,7 @@ def load_playlists():
 
     print("Load database")
     for playlist in database:
-        print("Loaded playlist:", playlist)
+        print(playlist)
         playlists.append(playlist.split(","))
 
     database.close()
