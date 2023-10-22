@@ -32,7 +32,7 @@ def add_spotify_uri(tag):
     playlist_name = input("What is this playlist called? ")
 
     playlist = tag + ",spotify," + playlist_name + "," + media_uri + "\n"
-
+    print("DB Entry: ", playlist)
     database = open(databaseFile, "a")
     database.write(playlist + "\n")
     database.close()
