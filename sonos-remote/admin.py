@@ -3,7 +3,7 @@
 from soco.plugins import sharelink
 from reader import Reader
 
-databaseFile = "database.txt"
+DATABASE_FILENAME = "database.txt"
 cardReader = Reader()
 
 
@@ -33,7 +33,7 @@ def add_spotify_uri(tag):
 
     playlist = tag + ",spotify," + playlist_name + "," + media_uri
     print("DB Entry: ", playlist)
-    database = open(databaseFile, "a")
+    database = open(DATABASE_FILENAME, "a")
     database.write(playlist + "\n")
     database.close()
 

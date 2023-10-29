@@ -1,77 +1,62 @@
 #!/usr/bin/env python3
 import time
 
-from soco.discovery import by_name
 from soco.plugins import sharelink
 
 from reader import Reader
 
-speaker = by_name("Move")
-reader = Reader()
-
-databaseFile = "database.txt"  # name of the local database text file
-defaultVolume = 20
-
-playlists = []
+DATABASE_FILENAME = "database.txt"
+DEFAULT_VOLUME = 20
 
 
 def main():
-    load_playlists()
+    playlists = load_playlists()
+    reader = Reader()
 
     while True:
         # slow down the card reading while loop
         time.sleep(0.2)
 
         print("Waiting for card")
-        tag = reader.reader.read_card()
-        print("Card TAG: ", tag)
-        play_nfc_stream(tag)
+        read_card_tag = reader.reader.read_card()
+        print("Card TAG: ", read_card_tag)
+        play_nfc_stream(read_card_tag, playlists)
 
 
-def play_nfc_stream(nfc_uid):
-    x = 0
-    for i in playlists:
-        tag = str(i[0]).lower()
+def play_nfc_stream(requested_tag, playlists):
+    for playlist in playlists:
+        # Example: 1,Bjarne,spotify,name,spotify:track:793rGBvVCGn2FFiNBALwgM
+        tag = str(playlist[0]).lower()
 
-        if tag == nfc_uid:
+        if tag == requested_tag:
             print("Found card in database", tag)
-            service = identify_service(playlists[x])
+            service = playlist[2]
 
             if service == "spotify":
-                play_spotify_playlist(playlists[x])
+                play_spotify_playlist(playlist)
             elif service == "utility":
-                utility_controls(playlists[x])
+                utility_controls(playlist)
             else:
                 print("Error: Unknown Service")
 
             break
 
-        x = x + 1
-
 
 def load_playlists():
-    global databaseFile
-    global playlists
-
-    playlists = []
-
     print("Load Database:")
-    with open(databaseFile, "r") as fp:
-        for playlist in fp:
-            play_list_entry = playlist.strip().split(",")
-            print("Entry:", play_list_entry)
-            playlists.append(play_list_entry)
-
+    playlists = []
+    with open(DATABASE_FILENAME, "r") as database:
+        for playlist in database:
+            playlist_entry = playlist.strip().split(",")
+            print("Entry:", playlist_entry)
+            playlists.append(playlist_entry)
     return playlists
 
 
-def identify_service(playlist_entry):
-    return playlist_entry[1]
-
-
-def play_spotify_playlist(playlists):
-    playlist_name = playlists[2]
-    playlist_url = playlists[3]
+def play_spotify_playlist(playlist):
+    speaker = playlist[2]
+    playlist_name = playlist[3]
+    playlist_url = playlist[4]
 
     media_uri = sharelink.SpotifyShare().canonical_uri(playlist_url)
     print("Media URI", media_uri)
@@ -83,13 +68,13 @@ def play_spotify_playlist(playlists):
     print("Playing Spotify:", playlist_name)
 
 
-def utility_controls(playlists):
-    global defaultVolume
-    global speaker
-    control = playlists[2].strip()
+def utility_controls(playlist):
+    global DEFAULT_VOLUME
+    speaker = playlist[2]
+    control = playlist[3].strip()
 
     if control == "vol reset":
-        speaker.volume = defaultVolume
+        speaker.volume = DEFAULT_VOLUME
     elif control == "vol down":
         speaker.volume = speaker.volume - 5
     elif control == "vol up":
