@@ -38,7 +38,6 @@ def play_nfc_stream(requested_tag, playlists, speakers):
 
             if service == "spotify":
                 speaker: SoCo = get_speaker(speakers, speaker_name)
-                print("Found speaker", speaker)
                 play_spotify_playlist(playlist, speaker)
             elif service == "utility":
                 utility_controls(playlist)
@@ -52,7 +51,7 @@ def get_speaker(speakers, speaker_name: str):
     for s in speakers:
         if s.player_name == speaker_name:
             return s
-    raise "not found"
+    raise "Could not find speaker with name: " + speaker_name
 
 
 def load_playlists():
@@ -77,7 +76,7 @@ def play_spotify_playlist(playlist, speaker):
     sharelink.ShareLinkPlugin(speaker).add_share_link_to_queue(media_uri, position=1, as_next=True)
     speaker.play_from_queue(0, start=True)
 
-    print("Playing Spotify:", playlist_name)
+    print("Playing on", speaker.player_name, speaker.ip_address, "Spotify:", playlist_name)
 
 
 def utility_controls(playlist):
