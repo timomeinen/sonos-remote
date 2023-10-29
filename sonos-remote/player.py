@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import time
 
+import soco
+from soco import SoCo
 from soco.plugins import sharelink
 
 from reader import Reader
@@ -11,6 +13,7 @@ DEFAULT_VOLUME = 20
 
 def main():
     playlists = load_playlists()
+    speakers = list(soco.discover())
     reader = Reader()
 
     while True:
@@ -20,26 +23,35 @@ def main():
         print("Waiting for card")
         read_card_tag = reader.reader.read_card()
         print("Card TAG: ", read_card_tag)
-        play_nfc_stream(read_card_tag, playlists)
+        play_nfc_stream(read_card_tag, playlists, speakers)
 
 
-def play_nfc_stream(requested_tag, playlists):
+def play_nfc_stream(requested_tag, playlists, speakers):
     for playlist in playlists:
         # Example: 1,Bjarne,spotify,name,spotify:track:793rGBvVCGn2FFiNBALwgM
         tag = str(playlist[0]).lower()
 
         if tag == requested_tag:
             print("Found card in database", tag)
+            speaker_name = playlist[1]
             service = playlist[2]
 
             if service == "spotify":
-                play_spotify_playlist(playlist)
+                speaker: SoCo = get_speaker(speakers, speaker_name)
+                play_spotify_playlist(playlist, speaker)
             elif service == "utility":
                 utility_controls(playlist)
             else:
                 print("Error: Unknown Service")
 
             break
+
+
+def get_speaker(speakers, speaker_name: str):
+    for s in speakers:
+        if s.player_name == speaker_name:
+            return s
+    raise "not found"
 
 
 def load_playlists():
@@ -53,11 +65,9 @@ def load_playlists():
     return playlists
 
 
-def play_spotify_playlist(playlist):
-    speaker = playlist[1]
+def play_spotify_playlist(playlist, speaker):
     playlist_name = playlist[3]
     playlist_url = playlist[4]
-    print(speaker, playlist_name, playlist_url)
 
     media_uri = sharelink.SpotifyShare().canonical_uri(playlist_url)
     print("Media URI", media_uri)
