@@ -54,6 +54,8 @@ def load_playlists():
 
 
 def play_spotify_playlist(playlist):
+    print(playlist)
+
     speaker = playlist[2]
     playlist_name = playlist[3]
     playlist_url = playlist[4]
