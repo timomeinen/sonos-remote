@@ -38,6 +38,7 @@ def play_nfc_stream(requested_tag, playlists, speakers):
 
             if service == "spotify":
                 speaker: SoCo = get_speaker(speakers, speaker_name)
+                print("Found speaker", speaker)
                 play_spotify_playlist(playlist, speaker)
             elif service == "utility":
                 utility_controls(playlist)
