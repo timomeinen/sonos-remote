@@ -54,12 +54,9 @@ def load_playlists():
 
 
 def play_spotify_playlist(playlist):
-    print(playlist)
-
-    speaker = playlist[2]
+    speaker = playlist[1]
     playlist_name = playlist[3]
     playlist_url = playlist[4]
-
     print(speaker, playlist_name, playlist_url)
 
     media_uri = sharelink.SpotifyShare().canonical_uri(playlist_url)
